@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  appsmith:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        BASE: appsmithorg/base:release
+        APPSMITH_CLOUD_SERVICES_BASE_URL: ""
+        APPSMITH_SEGMENT_CE_KEY: ""
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      - APPSMITH_ENCRYPTION_PASSWORD=password
+      - APPSMITH_ENCRYPTION_SALT=salt
+      - APPSMITH_SUPERVISOR_PASSWORD=password
+      - APPSMITH_DB_URL=mongodb://mongo:27017/appsmith
+    volumes:
+      - ./stacks:/appsmith-stacks
+    depends_on:
+      - mongo
+      - redis
+
+  mongo:
+    image: mongo:5.0
+    environment:
+      - MONGO_INITDB_DATABASE=appsmith
+    volumes:
+      - mongo_data:/data/db
+    ports:
+      - "27017:27017"
+
+  redis:
+    image: redis:6.2-alpine
+    volumes:
+      - redis_data:/data
+    ports:
+      - "6379:6379"
+
+volumes:
+  mongo_data:
+  redis_data:
