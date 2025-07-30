@@ -1,0 +1,20 @@
+# AWS Configuration
+aws_region = "us-east-1"
+
+# Application Configuration
+app_name = "appsmith"
+environment = "staging"
+
+# ECS Configuration
+container_port = 80
+desired_count = 1
+
+# You can override these values by:
+# 1. Creating a terraform.tfvars file with your values
+# 2. Using -var flags: terraform apply -var="environment=production"
+# 3. Setting environment variables: TF_VAR_environment=production
+
+# Example production configuration:
+# aws_region = "us-west-2"
+# environment = "production"
+# desired_count = 3
